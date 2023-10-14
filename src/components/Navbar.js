@@ -13,17 +13,17 @@ const Navbar = () => {
                         <li><a>View Conferences</a></li>
                     </ul>
                 </div>
-                <Link to="/" className="btn btn-ghost normal-case text-sm">CONFERENCE GO</Link>
+                <Link to="/" className="btn btn-ghost normal-case text-sm">Gather Hub</Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
-                    <li><a>Attend Conference</a></li>
-                    <li><a>Create Conference</a></li>
+                    <Link to="/create" className="btn btn-ghost normal-case text-sm mr-5">Create Conference</Link>
+                    <Link to="/attend" className="btn btn-ghost normal-case text-sm mr-5">Attend Conference</Link>
                 </ul>
             </div>
             <div className="navbar-end">
-                <Link to="/login" className="btn btn-ghost normal-case text-sm mr-5">LOGIN</Link>
-                <Link to="/signup" className="btn btn-ghost normal-case text-sm mr-5">SIGN UP</Link>
+                <Link to="/login" className="btn btn-ghost normal-case text-sm mr-5">Login</Link>
+                <Link to="/signup" className="btn btn-ghost normal-case text-sm mr-5">Sign Up</Link>
             </div>
         </div>
     )

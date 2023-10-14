@@ -40,3 +40,60 @@
     transform: rotate(360deg);
   }
 }
+
+/* Container styles to center the form in the middle of the page */
+.attend-conference-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: white;
+}
+
+/* Form styles with rounded corners and updated font */
+.black-and-white-form {
+  background-color: white;
+  color: black;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 15px; /* Add rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  font-family: "Arial", sans-serif; /* Change to an aesthetic font */
+}
+
+.form-group {
+  margin: 15px 0; /* Slightly increased spacing */
+  border-radius: 15px; /* Add rounded corners */
+}
+
+/* Input and label styles */
+input {
+  width: 100%;
+  padding: 10px; /* Increased padding for better aesthetics */
+  border: 1px solid black;
+  border-radius: 15px; /* Add rounded corners */
+
+}
+
+label {
+  font-weight: bold;
+  font-size: 16px; /* Adjust font size for better readability */
+}
+
+/* Rounded button container styles */
+.rounded-button-container {
+  text-align: center;
+}
+
+button {
+  background-color: black;
+  color: black;
+  border: 1px solid black;
+  margin-top: 10px;
+  padding: 12px 24px; /* Increased padding for the button */
+  cursor: pointer;
+  font-family: "Arial", sans-serif; /* Change to the same aesthetic font */
+  border-radius: 25px; /* Add rounded corners to the button */
+}
+
+/* Optionally, you can adjust the styles further to match your specific design preferences. */
