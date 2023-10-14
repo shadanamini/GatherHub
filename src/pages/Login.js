@@ -2,7 +2,7 @@ import Navbar from "../components/Navbar"
 
 const Login = () => {
     return (
-        <div className='overflow-y-hidden max-h-screen'>
+        <div className='lg:overflow-y-hidden max-h-screen'>
             <Navbar/>
             <div className="flex items-center justify-center bg-base-200 overflow-y-hidden">
                 <div className="hero min-h-[90vh] w-3/5 bg-base-200 overflow-y-hidden">
