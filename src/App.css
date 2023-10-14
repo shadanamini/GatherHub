@@ -46,7 +46,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 85vh;
+  margin-top: 1px;
   background-color: white;
 }
 
@@ -77,7 +78,7 @@ input {
 
 label {
   font-weight: bold;
-  font-size: 16px; /* Adjust font size for better readability */
+  font-size: 12px; /* Adjust font size for better readability */
 }
 
 /* Rounded button container styles */
