@@ -1,6 +1,31 @@
-import Navbar from "../components/Navbar"
+import Navbar from "../components/Navbar";
+import { signup, useCurrentUser } from "../utils/Firebase";
+import { useRef, useState } from 'react';
 
 const Signup = () => {
+    const emailRef = useRef<HTMLInputElement>(null);
+    const passwordRef = useRef<HTMLInputElement>(null);
+    const passwordConfirmRef = useRef<HTMLInputElement>(null);
+
+    const currentUser = useCurrentUser();
+
+    const [loading, setLoading] = useState(false);
+
+    async function handleSignup() {
+        if(emailRef.current===null || passwordRef.current===null || passwordConfirmRef.current===null)
+            return;
+        if(passwordRef.current.value!==passwordConfirmRef.current.value)
+            return;
+        setLoading(true);
+        try{
+            await signup(emailRef.current.value, passwordRef.current.value);
+        } catch {
+            alert("ERROR");
+        }
+        setLoading(false);
+        
+    }
+
     return (
         <div className='lg:overflow-y-hidden max-h-screen'>
             <Navbar />
@@ -23,16 +48,16 @@ const Signup = () => {
                                     <label className="label">
                                         <span className="label-text">Email</span>
                                     </label>
-                                    <input type="text" placeholder="email" className="input input-bordered" />
+                                    <input ref={emailRef} type="text" placeholder="email" className="input input-bordered" />
                                 </div>
                                 <div className="form-control">
                                     <label className="label">
                                         <span className="label-text">Password</span>
                                     </label>
-                                    <input type="text" placeholder="password" className="input input-bordered" />
+                                    <input ref={passwordRef} type="text" placeholder="password" className="input input-bordered" />
                                 </div>
                                 <div className="form-control mt-6">
-                                    <button className="btn btn-primary">Signup</button>
+                                    <button disabled={loading} onClick={handleSignup} className="btn btn-primary">Signup</button>
                                 </div>
                             </div>
                         </div>
