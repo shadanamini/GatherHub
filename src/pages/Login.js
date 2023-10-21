@@ -3,8 +3,8 @@ import { login } from "../utils/Firebase";
 import { useState, useRef } from "react";
 
 const Login = () => {
-    const emailRef = useRef<HTMLInputElement>(null);
-    const passwordRef = useRef<HTMLInputElement>(null);
+    const emailRef = useRef(null);
+    const passwordRef = useRef(null);
 
     const [loading, setLoading] = useState(false);
 

@@ -3,9 +3,9 @@ import { signup, useCurrentUser } from "../utils/Firebase";
 import { useRef, useState } from 'react';
 
 const Signup = () => {
-    const emailRef = useRef<HTMLInputElement>(null);
-    const passwordRef = useRef<HTMLInputElement>(null);
-    const passwordConfirmRef = useRef<HTMLInputElement>(null);
+    const emailRef = useRef(null);
+    const passwordRef = useRef(null);
+    const passwordConfirmRef = useRef(null);
 
     const currentUser = useCurrentUser();
 
@@ -13,17 +13,21 @@ const Signup = () => {
 
     async function handleSignup() {
         if(emailRef.current===null || passwordRef.current===null || passwordConfirmRef.current===null)
-            return;
+        {
+            console.log('L');
+            return;}
         if(passwordRef.current.value!==passwordConfirmRef.current.value)
+        {
+            console.log('R');
             return;
+        }
         setLoading(true);
         try{
-            await signup(emailRef.current.value, passwordRef.current.value);
+            await signup(passwordConfirmRef.current.value ,emailRef.current.value, passwordRef.current.value);
         } catch {
             alert("ERROR");
         }
         setLoading(false);
-        
     }
 
     return (
@@ -42,7 +46,7 @@ const Signup = () => {
                                     <label className="label">
                                         <span className="label-text">Username</span>
                                     </label>
-                                    <input type="text" placeholder="username" className="input input-bordered" />
+                                    <input ref={passwordConfirmRef} type="text" placeholder="username" className="input input-bordered" />
                                 </div>
                                 <div className="form-control">
                                     <label className="label">

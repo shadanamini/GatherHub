@@ -7,20 +7,27 @@ import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswo
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  //Put firebase config
-};
+    apiKey: "AIzaSyC8OQ5oYlpu1V83S9jeYmvHw_EXAzkwCR4",
+    authDomain: "gatherhub-d80b7.firebaseapp.com",
+    projectId: "gatherhub-d80b7",
+    storageBucket: "gatherhub-d80b7.appspot.com",
+    messagingSenderId: "333338889543",
+    appId: "1:333338889543:web:a9ac07b60e3c2fda4f5062",
+    measurementId: "G-DZNJ2TBCP9"
+  };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
-const db = getFirestore();
+const db = getFirestore(app);
 
 //Function to signup
-export function signup(email, password) {
-    setDoc(doc(db, 'Users', email), {
-        teams: []
-    });
-    return createUserWithEmailAndPassword(auth, email, password);
+export function signup(username, email, password) {
+    createUserWithEmailAndPassword(auth, email, password);
+    setDoc(doc(db, 'Users', auth.currentUser.uid), {
+        username: username,
+        email: email
+    }, { merge: true });
 }
 
 //Function to logout
