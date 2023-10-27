@@ -4,6 +4,7 @@ import AttendConferenceForm from './pages/AttendConference';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import HomePage from './pages/HomePage';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path="signup" element={<Signup />} />
           <Route path="create" element={<CreateConferenceForm />} />
           <Route path="attend" element={<AttendConferenceForm />} />
+          <Route path="home" element={<HomePage />} />
         </Routes>
       </BrowserRouter>
     </>

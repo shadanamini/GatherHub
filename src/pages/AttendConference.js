@@ -66,9 +66,9 @@ const AttendConferenceForm = () => {
               value={attendeeData.conferenceName}
               onChange={handleInputChange}
             />
-          </div>
+          </div>  
           <div className="form-group rounded-button-container font-bold">
-            <button type="submit">Attend</button>
+            <button type="submit">Attend!</button>
           </div>
         </form>
       </div>
