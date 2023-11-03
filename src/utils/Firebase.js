@@ -26,7 +26,8 @@ export function signup(username, email, password) {
     createUserWithEmailAndPassword(auth, email, password);
     setDoc(doc(db, 'Users', auth.currentUser.uid), {
         username: username,
-        email: email
+        email: email,
+        attending: []
     }, { merge: true });
 }
 
