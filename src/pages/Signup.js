@@ -1,13 +1,11 @@
 import Navbar from "../components/Navbar";
-import { signup, useCurrentUser } from "../utils/Firebase";
+import { signup} from "../utils/Firebase";
 import { useRef, useState } from 'react';
 
 const Signup = () => {
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
     const usernameRef = useRef(null);
-
-    const currentUser = useCurrentUser();
 
     const [loading, setLoading] = useState(false);
 
