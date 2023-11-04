@@ -38,12 +38,13 @@ const CreateConferenceForm = () => {
                 type="email"
                 id="email"
                 onChange={handleInputChange}
+                placeholder="conference name"
               />
             </div>
             <div className="form-group">
               <label htmlFor="conferenceDate">Conference Date</label>
               <input
-
+                placeholder="conference date"
               />
             </div>
             <div className="form-group">
@@ -52,6 +53,7 @@ const CreateConferenceForm = () => {
                 type="email"
                 id="email"
                 onChange={handleInputChange}
+                placeholder="conference location"
               />
             </div>
             <div className="form-group">
@@ -60,6 +62,7 @@ const CreateConferenceForm = () => {
                 type="email"
                 id="email"
                 onChange={handleInputChange}
+                placeholder="number of attendees"
               />
             </div>
             {/* <div className="form-group">
@@ -72,7 +75,7 @@ const CreateConferenceForm = () => {
             </div>
             */}
             <div className="form-group rounded-button-container font-bold">
-              <button type="submit">Create!</button>
+              <button type="submit">Create</button>
             </div>
           </form>
         </div>

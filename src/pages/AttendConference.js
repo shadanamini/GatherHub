@@ -53,12 +53,12 @@ const AttendConferenceForm = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="email">Email</label>
+                            <label htmlFor="email">Email Address</label>
                             <input
                                 type="email"
                                 id="email"
                                 name="email"
-                                placeholder="email"
+                                placeholder="email address"
                                 value={attendeeData.email}
                                 onChange={handleInputChange}
                             />
