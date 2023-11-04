@@ -5,7 +5,7 @@ import { useRef, useState } from 'react';
 const Signup = () => {
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
-    const passwordConfirmRef = useRef(null);
+    const usernameRef = useRef(null);
 
     const currentUser = useCurrentUser();
 

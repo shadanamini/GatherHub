@@ -24,7 +24,7 @@ const AttendConferenceForm = () => {
     };
 
     return (
-        <div className='max-h-screen'>
+        <div className='max-h-screen overflow-y-hidden'>
             <Navbar />
             <div className="attend-conference-container overflow-y-hidden bg-base-200">
                 <div className="black-and-white-form">

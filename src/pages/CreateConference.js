@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Navbar from "../components/Navbar";
 
 const CreateConferenceForm = () => {
   const [conferenceData, setConferenceData] = useState({
@@ -25,52 +26,56 @@ const CreateConferenceForm = () => {
   };
 
   return (
-    <div className="attend-conference-container overflow-y-hidden bg-base-200">
-      <div className="black-and-white-form">
-        <h2 div className="text-center font-bold">Create Conference</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="firstName">Conference Name</label>
-            <input
-              type="email"
-              id="email"
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="conferenceDate">Conference Date</label>
-            <input
+    <div className='max-h-screen overflow-y-hidden'>
+      <Navbar />
+      <div className="attend-conference-container overflow-y-hidden bg-base-200 h-[90vh]">
+        <div className="black-and-white-form">
+          <h2 div className="text-center font-bold">Create Conference</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="firstName">Conference Name</label>
+              <input
+                type="email"
+                id="email"
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="conferenceDate">Conference Date</label>
+              <input
 
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="firstName">Conference Location</label>
-            <input
-              type="email"
-              id="email"
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="firstName">Number of Attendees</label>
-            <input
-              type="email"
-              id="email"
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="firstName">Conference Description</label>
-            <input
-              type="email"
-              id="email"
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="form-group rounded-button-container font-bold">
-            <button type="submit">Create!</button>
-          </div>
-        </form>
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="firstName">Conference Location</label>
+              <input
+                type="email"
+                id="email"
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="firstName">Number of Attendees</label>
+              <input
+                type="email"
+                id="email"
+                onChange={handleInputChange}
+              />
+            </div>
+            {/* <div className="form-group">
+              <label htmlFor="firstName">Conference Description</label>
+              <input
+                type="email"
+                id="email"
+                onChange={handleInputChange}
+              />
+            </div>
+            */}
+            <div className="form-group rounded-button-container font-bold">
+              <button type="submit">Create!</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
