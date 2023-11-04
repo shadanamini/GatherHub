@@ -12,18 +12,14 @@ const Signup = () => {
     const [loading, setLoading] = useState(false);
 
     async function handleSignup() {
-        if(emailRef.current===null || passwordRef.current===null || passwordConfirmRef.current===null)
+        if(usernameRef.current===null || emailRef.current===null || passwordRef.current===null)
         {
             console.log('L');
-            return;}
-        if(passwordRef.current.value!==passwordConfirmRef.current.value)
-        {
-            console.log('R');
             return;
         }
         setLoading(true);
         try{
-            await signup(passwordConfirmRef.current.value ,emailRef.current.value, passwordRef.current.value);
+            await signup(usernameRef.current.value ,emailRef.current.value, passwordRef.current.value);
         } catch {
             alert("ERROR");
         }
@@ -46,7 +42,7 @@ const Signup = () => {
                                     <label className="label">
                                         <span className="label-text">Username</span>
                                     </label>
-                                    <input ref={passwordConfirmRef} type="text" placeholder="username" className="input input-bordered" />
+                                    <input ref={usernameRef} type="text" placeholder="username" className="input input-bordered" />
                                 </div>
                                 <div className="form-control">
                                     <label className="label">
