@@ -5,19 +5,14 @@ const ConferenceContext = createContext();
 
 export const ConferenceProvider = ({ children }) => {
   const [createdConferences, setCreatedConferences] = useState([]);
-  const [attendedConferences, setAttendedConferences] = useState([]);
 
   const addCreatedConference = (conferenceData) => {
     setCreatedConferences([...createdConferences, conferenceData]);
   };
 
-  const addAttendedConference = (attendedConference) => {
-    setAttendedConferences([...attendedConferences, attendedConference]);
-  };
-
   return (
     <ConferenceContext.Provider
-      value={{ createdConferences, attendedConferences, addCreatedConference, addAttendedConference }}
+      value={{ createdConferences, addCreatedConference }}
     >
       {children}
     </ConferenceContext.Provider>
@@ -25,9 +20,5 @@ export const ConferenceProvider = ({ children }) => {
 };
 
 export const useConferenceContext = () => {
-  const context = useContext(ConferenceContext);
-  if (!context) {
-    throw new Error("useConferenceContext must be used within a ConferenceProvider");
-  }
-  return context;
+  return useContext(ConferenceContext);
 };
