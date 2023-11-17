@@ -16,11 +16,7 @@ const Signup = () => {
             return;
         }
         setLoading(true);
-        try{
-            await signup(usernameRef.current.value ,emailRef.current.value, passwordRef.current.value);
-        } catch {
-            alert("ERROR");
-        }
+        await signup(usernameRef.current.value ,emailRef.current.value, passwordRef.current.value);
         setLoading(false);
     }
 

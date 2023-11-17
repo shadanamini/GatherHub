@@ -1,28 +1,26 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Navbar from "../components/Navbar";
+import { createConference } from "../utils/Firebase";
 
 const CreateConferenceForm = () => {
   const [conferenceData, setConferenceData] = useState({
     name: "",
-    maxAttendees: "",
-    city: "",
-    state: "",
-    country: "",
-    presentations: [],
+    numAttendees: "",
+    location: "",
+    date: ""
   });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setConferenceData({
-      ...conferenceData,
-      [name]: value,
-    });
-  };
+  const nameRef = useRef();
+  const dateRef = useRef();
+  const locationRef = useRef();
+  const numAttendeesRef = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // You can handle the form submission logic here
-    console.log("Submitted data:", conferenceData);
+    createConference(nameRef.current.value, dateRef.current.value, locationRef.current.value, numAttendeesRef.current.value);
+    alert('Form Created');
+    window.location.href = "home";
   };
 
   return (
@@ -35,33 +33,28 @@ const CreateConferenceForm = () => {
             <div className="form-group">
               <label htmlFor="firstName">Conference Name</label>
               <input
-                type="email"
-                id="email"
-                onChange={handleInputChange}
+                ref={nameRef}
                 placeholder="conference name"
               />
             </div>
             <div className="form-group">
               <label htmlFor="conferenceDate">Conference Date</label>
               <input
+                ref={dateRef}
                 placeholder="conference date"
               />
             </div>
             <div className="form-group">
               <label htmlFor="firstName">Conference Location</label>
               <input
-                type="email"
-                id="email"
-                onChange={handleInputChange}
+                ref={locationRef}
                 placeholder="conference location"
               />
             </div>
             <div className="form-group">
               <label htmlFor="firstName">Number of Attendees</label>
               <input
-                type="email"
-                id="email"
-                onChange={handleInputChange}
+                ref={numAttendeesRef}
                 placeholder="number of attendees"
               />
             </div>
