@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import { createConference } from "../utils/Firebase";
 
 const CreateConferenceForm = () => {
+  const { addCreatedConference } = useConferenceContext();
   const [conferenceData, setConferenceData] = useState({
     name: "",
     numAttendees: "",
@@ -24,49 +25,40 @@ const CreateConferenceForm = () => {
   };
 
   return (
-    <div className='max-h-screen overflow-y-hidden'>
+    <div className="max-h-screen overflow-y-hidden">
       <Navbar />
       <div className="attend-conference-container overflow-y-hidden bg-base-200 h-[90vh]">
         <div className="black-and-white-form">
-          <h2 div className="text-center font-bold">Create Conference</h2>
+          <h2 className="text-center font-bold">Create Conference</h2>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="firstName">Conference Name</label>
+              <label htmlFor="Name">Conference Name</label>
               <input
                 ref={nameRef}
                 placeholder="conference name"
               />
             </div>
             <div className="form-group">
-              <label htmlFor="conferenceDate">Conference Date</label>
+              <label htmlFor="Date">Conference Date</label>
               <input
                 ref={dateRef}
                 placeholder="conference date"
               />
             </div>
             <div className="form-group">
-              <label htmlFor="firstName">Conference Location</label>
+              <label htmlFor="Location">Conference Location</label>
               <input
                 ref={locationRef}
                 placeholder="conference location"
               />
             </div>
             <div className="form-group">
-              <label htmlFor="firstName">Number of Attendees</label>
+              <label htmlFor="Attendees">Number of Attendees</label>
               <input
                 ref={numAttendeesRef}
                 placeholder="number of attendees"
               />
             </div>
-            {/* <div className="form-group">
-              <label htmlFor="firstName">Conference Description</label>
-              <input
-                type="email"
-                id="email"
-                onChange={handleInputChange}
-              />
-            </div>
-            */}
             <div className="form-group rounded-button-container font-bold">
               <button type="submit">Create</button>
             </div>
