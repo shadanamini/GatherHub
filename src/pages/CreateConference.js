@@ -1,7 +1,10 @@
+// CreateConferenceForm.js
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
+import { useConferenceContext } from "./ConferenceContext";
 
 const CreateConferenceForm = () => {
+  const { addCreatedConference } = useConferenceContext();
   const [conferenceData, setConferenceData] = useState({
     Name: "",
     Date: "",
@@ -19,11 +22,17 @@ const CreateConferenceForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Data:", conferenceData);
+    addCreatedConference(conferenceData);
+    setConferenceData({
+      Name: "",
+      Date: "",
+      Location: "",
+      Attendees: "",
+    });
   };
 
   return (
-    <div className='max-h-screen overflow-y-hidden'>
+    <div className="max-h-screen overflow-y-hidden">
       <Navbar />
       <div className="attend-conference-container overflow-y-hidden bg-base-200 h-[90vh]">
         <div className="black-and-white-form">
