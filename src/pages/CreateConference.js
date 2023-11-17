@@ -3,26 +3,23 @@ import Navbar from "../components/Navbar";
 
 const CreateConferenceForm = () => {
   const [conferenceData, setConferenceData] = useState({
-    name: "",
-    maxAttendees: "",
-    city: "",
-    state: "",
-    country: "",
-    presentations: [],
+    Name: "",
+    Date: "",
+    Location: "",
+    Attendees: "",
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setConferenceData({
-      ...conferenceData,
+    setConferenceData((prevData) => ({
+      ...prevData,
       [name]: value,
-    });
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // You can handle the form submission logic here
-    console.log("Submitted data:", conferenceData);
+    console.log("Data:", conferenceData);
   };
 
   return (
@@ -30,50 +27,48 @@ const CreateConferenceForm = () => {
       <Navbar />
       <div className="attend-conference-container overflow-y-hidden bg-base-200 h-[90vh]">
         <div className="black-and-white-form">
-          <h2 div className="text-center font-bold">Create Conference</h2>
+          <h2 className="text-center font-bold">Create Conference</h2>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="firstName">Conference Name</label>
+              <label htmlFor="Name">Conference Name</label>
               <input
-                type="email"
-                id="email"
+                type="text"
+                id="Name"
+                name="Name"
                 onChange={handleInputChange}
                 placeholder="conference name"
               />
             </div>
             <div className="form-group">
-              <label htmlFor="conferenceDate">Conference Date</label>
+              <label htmlFor="Date">Conference Date</label>
               <input
+                type="date"
+                id="Date"
+                name="Date"
+                onChange={handleInputChange}
                 placeholder="conference date"
               />
             </div>
             <div className="form-group">
-              <label htmlFor="firstName">Conference Location</label>
+              <label htmlFor="Location">Conference Location</label>
               <input
-                type="email"
-                id="email"
+                type="text"
+                id="Location"
+                name="Location"
                 onChange={handleInputChange}
                 placeholder="conference location"
               />
             </div>
             <div className="form-group">
-              <label htmlFor="firstName">Number of Attendees</label>
+              <label htmlFor="Attendees">Number of Attendees</label>
               <input
-                type="email"
-                id="email"
+                type="number"
+                id="Attendees"
+                name="Attendees"
                 onChange={handleInputChange}
                 placeholder="number of attendees"
               />
             </div>
-            {/* <div className="form-group">
-              <label htmlFor="firstName">Conference Description</label>
-              <input
-                type="email"
-                id="email"
-                onChange={handleInputChange}
-              />
-            </div>
-            */}
             <div className="form-group rounded-button-container font-bold">
               <button type="submit">Create</button>
             </div>
