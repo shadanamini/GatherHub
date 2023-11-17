@@ -4,20 +4,30 @@ import Navbar from "../components/Navbar";
 import { useConferenceContext } from "./ConferenceContext";
 
 const Home = () => {
-  const { createdConferences, attendedConferences } = useConferenceContext();
+  const { createdConferences, attendedConferences, addAttendedConference } = useConferenceContext();
 
-  const renderConferenceBubbles = (conferences) => {
+    const renderConferenceBubbles = (conferences) => {
     return conferences.map((conference, index) => (
-      <div
-        key={index}
-        className="bubble-container mb-4 p-4 bg-black rounded-lg border border-white"
-      >
-        <p className="text-gray-300">Name: {conference.Name}</p>
-        <p className="text-gray-300">Date: {conference.Date}</p>
-        <p className="text-gray-300">Location: {conference.Location}</p>
-        <p className="text-gray-300">Attendees: {conference.Attendees}</p>
-      </div>
+        <div key={index} className="flex mb-4 bg-black rounded-lg border border-white p-4 relative">
+        <div className="text-gray-300">
+            <p>Name: {conference.Name}</p>
+            <p>Date: {conference.Date}</p>
+            <p>Location: {conference.Location}</p>
+            <p>Attendees: {conference.Attendees}</p>
+        </div>
+        <button
+            className="absolute top-0 right-0 m-2 bg-white text-black font-bold py-2 px-4 rounded-full"
+            onClick={() => handleAttendClick(conference)}
+        >
+            ✔
+        </button>
+        </div>
     ));
+    };
+
+  const handleAttendClick = (conference) => {
+    // Add the selected conference to the "Attending Conferences" list
+    addAttendedConference(conference);
   };
 
   return (
