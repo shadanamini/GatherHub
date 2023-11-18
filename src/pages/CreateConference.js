@@ -3,13 +3,13 @@ import Navbar from "../components/Navbar";
 import { createConference } from "../utils/Firebase";
 
 const CreateConferenceForm = () => {
-  const { addCreatedConference } = useConferenceContext();
-  const [conferenceData, setConferenceData] = useState({
+  //const { addCreatedConference } = useConferenceContext();
+  /*const [conferenceData, setConferenceData] = useState({
     name: "",
     numAttendees: "",
     location: "",
     date: ""
-  });
+  });*/
 
   const nameRef = useRef();
   const dateRef = useRef();
@@ -19,8 +19,12 @@ const CreateConferenceForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // You can handle the form submission logic here
-    createConference(nameRef.current.value, dateRef.current.value, locationRef.current.value, numAttendeesRef.current.value);
-    alert('Form Created');
+    try{
+      createConference(nameRef.current.value, dateRef.current.value, locationRef.current.value, numAttendeesRef.current.value);
+      alert('Conference Created');
+    } catch {
+      alert('error');
+    }
     window.location.href = "home";
   };
 

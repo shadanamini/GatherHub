@@ -2,7 +2,7 @@ import { useState, useEffect, createContext, useContext } from "react";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, setDoc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, updateDoc, arrayUnion, getDoc, query, where, onSnapshot, collection, getDocs } from 'firebase/firestore';
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, User } from 'firebase/auth';
 
 // Your web app's Firebase configuration
@@ -14,7 +14,7 @@ const firebaseConfig = {
     messagingSenderId: "333338889543",
     appId: "1:333338889543:web:a9ac07b60e3c2fda4f5062",
     measurementId: "G-DZNJ2TBCP9"
-  };
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -48,8 +48,11 @@ export function resetPassword(email) {
 
 //Add conference
 export function createConference(name, date, location, numAttendees) {
-    setDoc(doc(db, 'Conferences', makeid(10)), {
+    const id = makeid(10);
+    return setDoc(doc(db, 'Conferences', id), {
+        id: id,
         name: name,
+        admin: auth.currentUser.uid,
         date: date,
         location: location,
         maxAttendees: numAttendees,
@@ -64,10 +67,32 @@ function makeid(length) {
     const charactersLength = characters.length;
     let counter = 0;
     while (counter < length) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      counter += 1;
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        counter += 1;
     }
     return result;
+}
+
+export async function getUserConferencesAdmin(uid) {
+    let admin = []
+    const adminQuery = query(collection(db, "Conferences"), where("admin", "==", uid));
+    const querySnapshot = await getDocs(adminQuery);
+    querySnapshot.forEach((doc) => {
+        admin.push(doc.data());
+    });
+    console.log(admin);
+    return admin;
+}
+
+export async function getUserConferencesAttending(uid) {
+    const attending = []
+    const attendingQuery = query(collection(db, "Conferences"), where("attendees", "array-contains", uid));
+    const querySnapshot = await getDocs(attendingQuery);
+    querySnapshot.forEach((doc) => {
+        attending.push(doc.data());
+    });
+
+    return attending;
 }
 
 //User context to allow every page to access user
@@ -76,10 +101,10 @@ const UserContext = createContext(null);
 export function UserProvider({ children }) {
     const [currentUser, setCurrentUser] = useState();
 
-    useEffect(()=>{
-        const unsub = onAuthStateChanged(auth,user => {setCurrentUser(user)})
+    useEffect(() => {
+        const unsub = onAuthStateChanged(auth, user => { setCurrentUser(user) })
         return unsub;
-    },[])
+    }, [])
 
     return (
         <UserContext.Provider value={currentUser}>
