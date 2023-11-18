@@ -9,9 +9,11 @@ const Home = () => {
   const [adminConferences, setAdminConferences] = useState([]);
   const [attendingConferences, setAttendingConferences] = useState([]);
   const [codePopUpOpen, setCodePopUpOpen] = useState(false);
+  const [popUpID, setPopUpID] = useState(0);
 
-  function popUpTrue() {
+  function popUpTrue(id) {
     setCodePopUpOpen(true);
+    setPopUpID(id);
   }
 
   function popUpFalse() {
@@ -48,6 +50,7 @@ const Home = () => {
             })}
         </div>
       </div>
+      {codePopUpOpen ? <CodePopUp popUpFalse={popUpFalse} id={popUpID}/> : <></>}
     </div>
   );
 };
@@ -63,9 +66,8 @@ const AdminDisplay = (props) => {
       </div>
       <div className="h-full w-[15%] flex flex-col justify-between">
         <button className="bg-white w-full flex justify-center items-center"><p className="text-xs">Edit</p></button>
-        <button onClick={props.popUpTrue} className="bg-white w-full flex justify-center items-center"><p className="text-xs">Code</p></button>
+        <button onClick={e => props.popUpTrue(props.id)} className="bg-white w-full flex justify-center items-center"><p className="text-xs">Code</p></button>
       </div>
-      {props.codePopUpOpen ? <CodePopUp popUpFalse={props.popUpFalse} id={props.id}/> : <></>}
     </div>
   )
 }
