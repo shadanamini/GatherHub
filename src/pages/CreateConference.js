@@ -46,7 +46,7 @@ const CreateConferenceForm = () => {
               <label htmlFor="Date">Conference Date</label>
               <input
                 ref={dateRef}
-                placeholder="conference date"
+                type="date"
               />
             </div>
             <div className="form-group">

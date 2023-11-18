@@ -96,4 +96,8 @@ button {
   border-radius: 25px; /* Add rounded corners to the button */
 }
 
-/* Optionally, you can adjust the styles further to match your specific design preferences. */
+.form-group input[type="date"] {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
