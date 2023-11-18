@@ -36,14 +36,14 @@ const Home = () => {
       <Navbar />
       <div className="h-[90vh] w-screen max-w-full grid grid-cols-2 items-center justify-items-center bg-base-200">
         {/* Left Side - Created Conferences */}
-        <div className="h-[90%] w-[90%] bg-black rounded-xl p-4">
+        <div className="h-[90%] w-[90%] bg-black rounded-xl p-4 overflow-y-auto">
           <h2 className="text-white text-lg font-bold mb-4">Created Conferences</h2>
           {adminConferences?.map((con) => {
               return <AdminDisplay id={con.id} name={con.name} date={con.date} location={con.location} attendees={con.attendees.length} popUpTrue={popUpTrue} popUpFalse={popUpFalse} codePopUpOpen={codePopUpOpen}/>
             })}
         </div>
         {/* Right Side - Attending Conferences */}
-        <div className="h-[90%] w-[90%] bg-black rounded-xl p-4">
+        <div className="h-[90%] w-[90%] bg-black rounded-xl p-4 overflow-y-auto">
           <h2 className="text-white text-lg font-bold mb-4">Attending Conferences</h2>
           {attendingConferences?.map((con) => {
               return <AttendingDisplay id={con.id} name={con.name} date={con.date} location={con.location} attendees={con.attendees.length} />
