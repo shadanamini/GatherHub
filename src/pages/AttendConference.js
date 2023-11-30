@@ -5,25 +5,17 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const AttendConferenceForm = () => {
-    const [attendeeData, setAttendeeData] = useState({
-        firstName: "",
-        lastName: "",
-        email: "",
-        conferenceName: "",
-    });
+    const [conferenceCode, setConferenceCode] = useState("");
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setAttendeeData({
-            ...attendeeData,
-            [name]: value,
-        });
+        const value = e.target.value;
+        setConferenceCode(value);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         // You can handle the form submission logic here
-        const result = await attendConference(attendeeData.conferenceName);
+        const result = await attendConference(conferenceCode);
         if(result === -1) {
             toast.error("This conference does not exist");
         }
@@ -46,7 +38,7 @@ const AttendConferenceForm = () => {
                 <div className="black-and-white-form">
                     <h2 div className="text-center font-bold">Attend Conference</h2>
                     <form onSubmit={handleSubmit}>
-                        <div className="form-group">
+                        {/*<div className="form-group">
                             <label htmlFor="firstName">First Name</label>
                             <input
                                 type="text"
@@ -78,15 +70,15 @@ const AttendConferenceForm = () => {
                                 value={attendeeData.email}
                                 onChange={handleInputChange}
                             />
-                        </div>
+                        </div>*/}
                         <div className="form-group">
-                            <label htmlFor="conferenceName">Conference Name</label>
+                            <label htmlFor="conferenceCode">Conference Code</label>
                             <input
                                 type="text"
-                                id="conferenceName"
-                                name="conferenceName"
-                                placeholder="conference name"
-                                value={attendeeData.conferenceName}
+                                id="conferenceCode"
+                                name="conferenceCode"
+                                placeholder="conference code"
+                                value={conferenceCode}
                                 onChange={handleInputChange}
                             />
                         </div>

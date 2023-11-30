@@ -73,7 +73,7 @@ export async function attendConference(code) {
         return -1;
     }
     const attendees = conf.attendees;
-    if(attendees.includes(auth.currentUser.uid)) {
+    if(attendees.includes(auth.currentUser.uid) || conf.admin === auth.currentUser.uid) {
         return 0;
     }
     attendees.push(auth.currentUser.uid);
@@ -88,6 +88,25 @@ export async function attendConference(code) {
         attending: userAttending
     });
     return 1;
+}
+
+export async function getConferenceInfo(code) {
+    let conf;
+    const confQuery = query(collection(db, "Conferences"), where("id", "==", code));
+    const querySnapshot = await getDocs(confQuery);
+    querySnapshot.forEach((doc) => {
+        conf = doc.data();
+    });
+    console.log(conf);
+    return conf;
+}
+
+export function editConference(code, name, date, location) {
+    updateDoc(doc(db, "Conferences", code), {
+        name: name,
+        date: date,
+        location: location
+    });
 }
 
 function makeid(length) {
