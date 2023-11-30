@@ -27,7 +27,7 @@ const CreateConferenceForm = () => {
       // Delay the redirect for 2 seconds (adjust the delay time as needed)
       setTimeout(() => {
         window.location.href = "home";
-      }, 6000);
+      }, 3000);
     } catch (error) {
       // Show error toast on failure
       toast.error('Error creating conference');

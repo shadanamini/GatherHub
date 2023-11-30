@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
+import { attendConference } from "../utils/Firebase";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AttendConferenceForm = () => {
     const [attendeeData, setAttendeeData] = useState({
@@ -17,15 +20,28 @@ const AttendConferenceForm = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // You can handle the form submission logic here
-        console.log("Submitted data:", attendeeData);
+        const result = await attendConference(attendeeData.conferenceName);
+        if(result === -1) {
+            toast.error("This conference does not exist");
+        }
+        else if(result === 0) {
+            toast.info("You are already attending this conference");
+        }
+        else if(result === 1) {
+            toast.success("You are now attending this conference");
+            setTimeout(() => {
+                window.location.href = "home";
+              }, 3000);
+        }
     };
 
     return (
         <div className='max-h-screen overflow-y-hidden'>
             <Navbar />
+            <ToastContainer />
             <div className="attend-conference-container overflow-y-hidden bg-base-200">
                 <div className="black-and-white-form">
                     <h2 div className="text-center font-bold">Attend Conference</h2>

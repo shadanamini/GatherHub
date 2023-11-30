@@ -61,6 +61,35 @@ export function createConference(name, date, location, numAttendees) {
     }, { merge: true });
 }
 
+//Attend conference
+export async function attendConference(code) {
+    let conf;
+    const confQuery = query(collection(db, "Conferences"), where("id", "==", code));
+    const querySnapshot = await getDocs(confQuery);
+    querySnapshot.forEach((doc) => {
+        conf = doc.data();
+    });
+    if(!conf) {
+        return -1;
+    }
+    const attendees = conf.attendees;
+    if(attendees.includes(auth.currentUser.uid)) {
+        return 0;
+    }
+    attendees.push(auth.currentUser.uid);
+    updateDoc(doc(db, "Conferences", code), {
+        attendees: attendees
+    });
+    const id = conf.id;
+    const docSnap = await getDoc(doc(db, "Users", auth.currentUser.uid));
+    const userAttending = docSnap.data().attending;
+    userAttending.push(id);
+    updateDoc(doc(db, "Users", auth.currentUser.uid), {
+        attending: userAttending
+    });
+    return 1;
+}
+
 function makeid(length) {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -80,7 +109,6 @@ export async function getUserConferencesAdmin(uid) {
     querySnapshot.forEach((doc) => {
         admin.push(doc.data());
     });
-    console.log(admin);
     return admin;
 }
 
