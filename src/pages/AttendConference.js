@@ -22,11 +22,14 @@ const AttendConferenceForm = () => {
         else if(result === 0) {
             toast.info("You are already attending this conference");
         }
+        else if(result === -2) {
+            toast.error("This conference is full");
+        }
         else if(result === 1) {
             toast.success("You are now attending this conference");
             setTimeout(() => {
                 window.location.href = "home";
-              }, 3000);
+              }, 2000);
         }
     };
 

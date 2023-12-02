@@ -2,7 +2,7 @@ import { useState, useEffect, createContext, useContext } from "react";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, setDoc, updateDoc, arrayUnion, getDoc, query, where, onSnapshot, collection, getDocs } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, updateDoc, arrayUnion, getDoc, query, where, onSnapshot, collection, getDocs, deleteDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, User } from 'firebase/auth';
 
 // Your web app's Firebase configuration
@@ -76,6 +76,9 @@ export async function attendConference(code) {
     if(attendees.includes(auth.currentUser.uid) || conf.admin === auth.currentUser.uid) {
         return 0;
     }
+    if(attendees.length >= conf.maxAttendees) {
+        return -2;
+    }
     attendees.push(auth.currentUser.uid);
     updateDoc(doc(db, "Conferences", code), {
         attendees: attendees
@@ -107,6 +110,10 @@ export function editConference(code, name, date, location) {
         date: date,
         location: location
     });
+}
+
+export function deleteConference(code) {
+    deleteDoc(doc(db, "Conferences", code));
 }
 
 function makeid(length) {

@@ -2,27 +2,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import Navbar from "../components/Navbar";
 import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import {
-  initializeApp,
-  getFirestore,
-  doc,
-  setDoc,
-  updateDoc,
-  arrayUnion,
-  getDoc,
-  query,
-  where,
-  onSnapshot,
-  collection,
-} from "firebase/app";
-
-import {
+import 'react-toastify/dist/ReactToastify.css';import {
   getUserConferencesAdmin,
   getUserConferencesAttending,
   useCurrentUser,
   getConferenceInfo,
   editConference,
+  deleteConference,
 } from "../utils/Firebase";
 
 const Home = () => {
@@ -32,6 +18,7 @@ const Home = () => {
   const [codePopUpOpen, setCodePopUpOpen] = useState(false);
   const [popUpID, setPopUpID] = useState(0);
   const [editPopUpOpen, setEditPopUpOpen] = useState(false);
+  const [rerender, setRerender] = useState(false);
 
   function popUpTrue(id) {
     setCodePopUpOpen(true);
@@ -51,6 +38,16 @@ const Home = () => {
     setEditPopUpOpen(false);
   }
 
+  function deleteConf(id) {
+    deleteConference(id);
+    if(rerender) {
+      setRerender(false);
+    }
+    else {
+      setRerender(true);
+    }
+  }
+
   useEffect(() => {
     async function some() {
       if (user) {
@@ -59,7 +56,7 @@ const Home = () => {
       }
     }
     some();
-  }, [editPopUpOpen]);
+  }, [editPopUpOpen, rerender]);
 
   return (
     <div className="lg:overflow-y-hidden max-h-screen">
@@ -77,8 +74,10 @@ const Home = () => {
                 date={con.date}
                 location={con.location}
                 attendees={con.attendees.length}
+                maxAttendees={con.maxAttendees}
                 popUpTrue={popUpTrue}
                 editPopUpTrue={editPopUpTrue}
+                deleteConf={deleteConf}
               />
             );
           })}
@@ -109,11 +108,12 @@ const Home = () => {
 const AdminDisplay = (props) => {
   return (
     <div key={props.id} className="flex mb-4 bg-black rounded-lg border border-white p-4">
-      <div className="text-gray-300 w-[85%]">
+      <div className="text-gray-300 w-[85%] text-2xl">
         <p>Name: {props.name}</p>
         <p>Date: {props.date}</p>
         <p>Location: {props.location}</p>
         <p>Attendees: {props.attendees}</p>
+        <p>Max Attendees: {props.maxAttendees}</p>
       </div>
       <div className="h-full w-[15%] flex flex-col justify-between">
         <button onClick={(e) => props.editPopUpTrue(props.id)} className="bg-white w-full flex justify-center items-center">
@@ -121,6 +121,9 @@ const AdminDisplay = (props) => {
         </button>
         <button onClick={(e) => props.popUpTrue(props.id)} className="bg-white w-full flex justify-center items-center">
           <p className="text-xs">Code</p>
+        </button>
+        <button onClick={(e) => props.deleteConf(props.id)} className="bg-red-600 w-full flex justify-center items-center">
+          <p className="text-xs">Delete</p>
         </button>
       </div>
     </div>
