@@ -141,14 +141,17 @@ const AttendingDisplay = (props) => {
 };
 
 const CodePopUp = (props) => {
+  function handleOutsideClick(e) {
+    if (e.target.classList.contains('code-popup-overlay')) {
+      props.popUpFalse();
+    }
+  }
+
   return (
-    <div className="fixed top-0 left-0 w-screen h-screen bg-[rgba(0, 0, 0, 0.5)] flex justify-center items-center z-40 backdrop-blur-sm">
+    <div className="fixed top-0 left-0 w-screen h-screen bg-[rgba(0, 0, 0, 0.5)] flex justify-center items-center z-40 backdrop-blur-sm code-popup-overlay" onClick={handleOutsideClick}>
       <div className='h-[25%] w-[20%] bg-white rounded-lg flex flex-col items-center z-50 justify-around p-2'>
         <h1 className="text-center text-3xl">Attendance Code</h1>
         <h1 className="text-2xl">{props.id}</h1>
-        <button onClick={props.popUpFalse} className='flex justify-center items-center h-5'>
-          <p className="text-white">Close</p>
-        </button>
       </div>
     </div>
   );
@@ -184,7 +187,6 @@ const EditPopUp = (props) => {
       draggable: true,
       progress: undefined,
     });
-
   }
 
   function handleOutsideClick(e) {
