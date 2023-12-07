@@ -2,7 +2,7 @@ import { useState, useEffect, createContext, useContext } from "react";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, setDoc, updateDoc, arrayUnion, getDoc, query, where, onSnapshot, collection, getDocs, deleteDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, updateDoc, arrayUnion, getDoc, query, where, onSnapshot, collection, getDocs, deleteDoc, orderBy } from 'firebase/firestore';
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, User } from 'firebase/auth';
 
 // Your web app's Firebase configuration
@@ -116,6 +116,55 @@ export function deleteConference(code) {
     deleteDoc(doc(db, "Conferences", code));
 }
 
+export async function leaveConference(code) {
+    let conf;
+    const confQuery = query(collection(db, "Conferences"), where("id", "==", code));
+    const querySnapshot = await getDocs(confQuery);
+    querySnapshot.forEach((doc) => {
+        conf = doc.data();
+    });
+    const attendees = conf.attendees;
+    attendees.splice(attendees.indexOf(auth.currentUser.uid), 1);
+    updateDoc(doc(db, "Conferences", code), {
+        attendees: attendees
+    }); 
+    const id = conf.id;
+    const docSnap = await getDoc(doc(db, "Users", auth.currentUser.uid));
+    const userAttending = docSnap.data().attending;
+    userAttending.splice(userAttending.indexOf(id), 1);
+    updateDoc(doc(db, "Users", auth.currentUser.uid), {
+        attending: userAttending
+    });
+}
+
+export async function createEvent(code, name, time, location) {
+    let conf;
+    const confQuery = query(collection(db, "Conferences"), where("id", "==", code));
+    const querySnapshot = await getDocs(confQuery);
+    querySnapshot.forEach((doc) => {
+        conf = doc.data();
+    });
+    const events = conf.events;
+    events.push({name: name, time: time, location: location, id: makeid(20)});
+    updateDoc(doc(db, "Conferences", code), {
+        events: events
+    }); 
+}
+
+export async function deleteEvent(code, id) {
+    let conf;
+    const confQuery = query(collection(db, "Conferences"), where("id", "==", code));
+    const querySnapshot = await getDocs(confQuery);
+    querySnapshot.forEach((doc) => {
+        conf = doc.data();
+    });
+    let events = conf.events;
+    events = events.filter(event => event.id != id);
+    updateDoc(doc(db, "Conferences", code), {
+        events: events
+    }); 
+}
+
 function makeid(length) {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -130,7 +179,7 @@ function makeid(length) {
 
 export async function getUserConferencesAdmin(uid) {
     let admin = []
-    const adminQuery = query(collection(db, "Conferences"), where("admin", "==", uid));
+    const adminQuery = query(collection(db, "Conferences"), where("admin", "==", uid), orderBy("date"));
     const querySnapshot = await getDocs(adminQuery);
     querySnapshot.forEach((doc) => {
         admin.push(doc.data());
@@ -140,7 +189,7 @@ export async function getUserConferencesAdmin(uid) {
 
 export async function getUserConferencesAttending(uid) {
     const attending = []
-    const attendingQuery = query(collection(db, "Conferences"), where("attendees", "array-contains", uid));
+    const attendingQuery = query(collection(db, "Conferences"), where("attendees", "array-contains", uid), orderBy("date"));
     const querySnapshot = await getDocs(attendingQuery);
     querySnapshot.forEach((doc) => {
         attending.push(doc.data());

@@ -1,14 +1,17 @@
 // Home.js
 import React, { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';import {
+import 'react-toastify/dist/ReactToastify.css'; 
+import {
   getUserConferencesAdmin,
   getUserConferencesAttending,
   useCurrentUser,
   getConferenceInfo,
   editConference,
   deleteConference,
+  leaveConference,
 } from "../utils/Firebase";
 
 const Home = () => {
@@ -40,12 +43,24 @@ const Home = () => {
 
   function deleteConf(id) {
     deleteConference(id);
-    if(rerender) {
+    if (rerender) {
       setRerender(false);
     }
     else {
       setRerender(true);
     }
+    toast.error("You have deleted this conference");
+  }
+
+  async function leaveConf(id) {
+    await leaveConference(id);
+    if (rerender) {
+      setRerender(false);
+    }
+    else {
+      setRerender(true);
+    }
+    toast.error("You are no longer attending this conference");
   }
 
   useEffect(() => {
@@ -60,12 +75,13 @@ const Home = () => {
 
   return (
     <div className="lg:overflow-y-hidden max-h-screen">
+      <ToastContainer/>
       <Navbar />
       <div className="h-[90vh] w-screen max-w-full grid grid-cols-2 items-center justify-items-center bg-base-200">
         {/* Left Side - Created Conferences */}
         <div className="h-[90%] w-[90%] bg-black rounded-xl p-4 overflow-y-auto">
           <h2 className="text-white text-lg font-bold mb-4 text-center">Created Conferences</h2>
-          {adminConferences?.map((con) => {
+          {adminConferences.length ? adminConferences?.map((con) => {
             return (
               <AdminDisplay
                 key={con.id}
@@ -78,14 +94,15 @@ const Home = () => {
                 popUpTrue={popUpTrue}
                 editPopUpTrue={editPopUpTrue}
                 deleteConf={deleteConf}
+                con={con}
               />
             );
-          })}
+          }) : <></>}
         </div>
         {/* Right Side - Attending Conferences */}
         <div className="h-[90%] w-[90%] bg-black rounded-xl p-4 overflow-y-auto">
           <h2 className="text-white text-lg font-bold mb-4 text-center">Attending Conferences</h2>
-          {attendingConferences?.map((con) => {
+          {attendingConferences.length ? attendingConferences?.map((con) => {
             return (
               <AttendingDisplay
                 key={con.id}
@@ -94,9 +111,12 @@ const Home = () => {
                 date={con.date}
                 location={con.location}
                 attendees={con.attendees.length}
+                maxAttendees={con.maxAttendees}
+                leaveConf={leaveConf}
+                con={con}
               />
             );
-          })}
+          }) : <></>}
         </div>
       </div>
       {editPopUpOpen ? <EditPopUp popUpFalse={editPopUpFalse} id={popUpID} /> : <></>}
@@ -106,9 +126,11 @@ const Home = () => {
 };
 
 const AdminDisplay = (props) => {
+  const navigate = useNavigate();
+
   return (
     <div key={props.id} className="flex mb-4 bg-black rounded-lg border border-white p-4">
-      <div className="text-gray-300 w-[85%] text-2xl">
+      <div className="text-gray-300 w-[85%]">
         <p>Name: {props.name}</p>
         <p>Date: {props.date}</p>
         <p>Location: {props.location}</p>
@@ -122,6 +144,11 @@ const AdminDisplay = (props) => {
         <button onClick={(e) => props.popUpTrue(props.id)} className="bg-white w-full flex justify-center items-center">
           <p className="text-xs">Code</p>
         </button>
+      </div>
+      <div className="h-full w-[15%] flex flex-col justify-between ml-5">
+        <button onClick={(e) => navigate('/events', {state: {conference: props.con, admin: true}})} className="bg-white w-full flex justify-center items-center">
+          <p className="text-xs">Events</p>
+        </button>
         <button onClick={(e) => props.deleteConf(props.id)} className="bg-red-600 w-full flex justify-center items-center">
           <p className="text-xs">Delete</p>
         </button>
@@ -131,13 +158,24 @@ const AdminDisplay = (props) => {
 };
 
 const AttendingDisplay = (props) => {
+  const navigate = useNavigate();
+
   return (
     <div key={props.id} className="flex mb-4 bg-black rounded-lg border border-white p-4">
-      <div className="text-gray-300 w-full">
+      <div className="text-gray-300 w-[85%]">
         <p>Name: {props.name}</p>
         <p>Date: {props.date}</p>
         <p>Location: {props.location}</p>
         <p>Attendees: {props.attendees}</p>
+        <p>Max Attendees: {props.maxAttendees}</p>
+      </div>
+      <div className="h-full w-[15%] flex flex-col justify-between">
+        <button onClick={(e) => navigate('/events', {state: {conference: props.con, admin: false}})} className="bg-white w-full flex justify-center items-center">
+          <p className="text-xs">Events</p>
+        </button>
+        <button onClick={(e) => props.leaveConf(props.id)} className="bg-red-600 w-full flex justify-center items-center">
+          <p className="text-xs">Leave</p>
+        </button>
       </div>
     </div>
   );
@@ -179,7 +217,7 @@ const EditPopUp = (props) => {
   function handleSubmit(e) {
     e.preventDefault();
     editConference(props.id, nameRef.current.value, dateRef.current.value, locationRef.current.value);
-    
+
     // Show success message using toastify
     toast.success('You\'ve updated the conference successfully.', {
       position: 'top-right',

@@ -9,6 +9,7 @@ import NoLoginRoutes from './utils/NoLoginRoutes';
 import PrivateRoutes from './utils/ProtectedRoutes';
 import Home from './pages/Home';
 import { UserProvider } from './utils/Firebase';
+import Events from './pages/Events';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="create" element={<CreateConferenceForm />} />
             <Route path="attend" element={<AttendConferenceForm />} />
             <Route path="home" element={<Home/>} />
+            <Route path="events" element={<Events/>} />
           </Route>
         </Routes>
       </BrowserRouter>
