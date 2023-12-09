@@ -49,16 +49,16 @@ const Events = () => {
         <div className="lg:overflow-y-hidden h-screen w-screen max-w-full bg-base-200">
             <ToastContainer />
             <Navbar />
-            <div className="h-[10vh] flex justify-center items-center">
-                <div className="text-3xl">Conference: {conf.name}</div>
+            <div className="h-[5vh] flex justify-center items-center">
+                <div className="text-2xl mt-5">Conference: {conf.name}</div>
             </div>
             <div className="h-[80vh] flex justify-center items-center">
                 <div className="rounded-xl flex flex-col bg-black h-[90%] w-[90%]">
-                    <div className="h-[5vh] flex justify-end">
+                    <div className="h-[10vh] flex justify-end">
                         {admin ? <button className="mr-5 rounded-xl bg-white" onClick={createPopUpTrue}>Add Event</button> : <></>}
                     </div>
                     <div className="h-[75vh] flex justify-center items-center">
-                        {events && events.length ? <div className="h-[90%] w-[90%] grid grid-cols-4 auto-rows-max overflow-y-auto">{events.map((event) => <EventDisplay event={event} admin={admin}  delEvent={delEvent}/>)}</div> : <div className="text-5xl text-white">No Events Scheduled</div>}
+                        {events && events.length ? <div className="h-[90%] w-[90%] grid grid-cols-3 auto-rows-max overflow-y-auto">{events.map((event) => <EventDisplay event={event} admin={admin}  delEvent={delEvent}/>)}</div> : <div className="text-5xl text-white">No Events Scheduled</div>}
                     </div>
                 </div>
             </div>
